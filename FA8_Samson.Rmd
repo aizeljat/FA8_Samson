@@ -1,0 +1,63 @@
+---
+title: "FA8_Samson"
+output: html_document
+date: "2023-04-30"
+---
+```{r 
+
+# 1. In Example 16.3 with 𝜆 = 4 per minute, use R to obtain:
+
+# (a) P(T ≤ 0.25) = P(time between submissions is at most 15 seconds);
+P15s <- pexp(0.25, rate = 4, lower.tail = TRUE)
+P15s
+
+# (b) P(T > 0.5) = P(time between submissions is greater than 30 seconds);
+P30s <- 1 - pexp(0.5, rate = 4, lower.tail = TRUE)
+P30s
+
+# (c) P(0.25 < T < 1) = P(time between submissions is between 15 seconds and 1 minute).
+Pbetween <- pexp(1, rate = 4, lower.tail = TRUE) - pexp(0.25, rate = 4, lower.tail = TRUE)
+Pbetween
+
+# 3. The average rate of job submissions in a computer center is 2 per minute. If it can be assumed that the number of submissions per minute has a Poisson distribution, calculate the probability that:
+avgrate <- 2
+
+#(a) more than two jobs will arrive in a minute;
+more1min <- 1 - ppois(2, avgrate) 
+more1min
+
+#(b) at least 30 seconds will elapse between any two jobs;
+between30 <- 1 - pexp(0.5, avgrate)
+between30
+
+#(c) less than 30 seconds will elapse between jobs;
+less30bet2 <- pexp(0.5, avgrate)
+less30bet2
+
+#(d) a job will arrive in the next 30 seconds, if no jobs have arrived in the last 30 seconds
+next30 <- 1 - pexp(0.5, avgrate*0.5)
+next30
+
+# 7. A website receives an average of 15 visits per hour, which arrive following a Poisson distribution.
+x <- 2.5
+y <- 15
+z <- 0.25
+
+# (a) Calculate the probability that at least 10 minutes will elapse without a visit.
+Wout10min <- sum(dpois(0:1, x))
+Wout10min
+
+# (b) What is the probability that in any hour, there will be less than eight visits?
+Less8visits <- ppois(7, y)
+Less8visits
+
+# (c) Suppose that 15 minutes have elapsed since the last visit, what is the probability that a visit will occur in the next 15 minutes.
+Last15min <- pexp(15, z, lower.tail = TRUE) / (1 - pexp(15, z, lower.tail = TRUE))
+Last15min
+
+# (d) Calculate the top quartile, and explain what it means.
+quartile <- qpois(0.75, y)
+quartile
+# When presented in increasing order, the value that 75% of data points fall within is known as the higher quartile, or third quartile (Q3).
+
+```
